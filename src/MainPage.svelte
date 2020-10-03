@@ -1,5 +1,6 @@
 <script>
   import Fab from "./components/common/FAB.svelte";
+  import InsertModal from "./components/InsertModal.svelte";
 
   let insertModalActive = false;
 
@@ -17,11 +18,5 @@
 
 <main>
   <Fab onClick={showInsertModal} />
-  <div class="modal" class:is-active={insertModalActive}>
-    <div class="modal-background" />
-    <div class="modal-content">
-      <!-- Any other Bulma elements you want -->
-    </div>
-    <button class="modal-close is-large" aria-label="close" on:click={dismissInsertModal} />
-  </div>
+  <InsertModal visible={insertModalActive} onDismiss={dismissInsertModal} />
 </main>

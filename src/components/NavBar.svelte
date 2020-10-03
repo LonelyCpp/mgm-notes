@@ -1,9 +1,7 @@
 <script>
   import { onMount } from "svelte";
 
-  export let mainDBRef;
-
-  import { checkForUser, loginWithGoogle } from "../firebase/auth";
+  import { loginWithGoogle } from "../firebase/auth";
   import { userMeta } from "../store/authStore";
 
   let allYears = ["first PU", "second PU"];

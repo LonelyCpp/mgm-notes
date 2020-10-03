@@ -5,11 +5,6 @@
   import { checkForUser } from "./firebase/auth";
   import { init } from "./firebase/firebase";
   import MainPage from "./MainPage.svelte";
-
-  onMount(() => {
-    init();
-    checkForUser();
-  });
 </script>
 
 <style>

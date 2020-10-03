@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 var firebaseConfig = {
   projectId: "mgm-notes",
@@ -13,7 +14,4 @@ var firebaseConfig = {
   appId: "1:718274203567:web:0267dc8ce74b18882fa95a",
 };
 
-export function init() {
-  firebase.initializeApp(firebaseConfig);
-  console.log("firebase init done");
-}
+firebase.initializeApp(firebaseConfig);

@@ -1,18 +1,14 @@
 <script>
+  import { onMount } from "svelte";
+  import Spacer from "./common/Spacer.svelte";
+  import { uploadFile } from "../firebase/storage";
+  import { getYearList, insertNotes, LangList } from "../firebase/firestore";
+
   export let visible;
   export let onDismiss;
 
-  import {
-    getLangList,
-    getYearList,
-    insertNotes,
-    LangList,
-  } from "../firebase/firestore";
-
-  import { uploadFile } from "../firebase/storage";
-
-  let yearList = getYearList().then((l) => (yearList = l));
-  $: year = Array.isArray(yearList) && yearList[0];
+  let year;
+  let yearList = [];
 
   const langList = LangList;
   let lang = langList[0];
@@ -20,12 +16,14 @@
   let chapterNumber = "";
   let chapterName = "";
   let notesText = "";
-
   let files;
 
-  async function onSubmit() {
-    let filePath = "";
+  let uploadInProgress = false;
 
+  async function onSubmit() {
+    uploadInProgress = true;
+
+    let filePath = "";
     if (files && files[0]) {
       const uploadSnapShot = await uploadFile(files[0]);
       filePath = uploadSnapShot.ref.fullPath;
@@ -40,14 +38,18 @@
     });
 
     onDismiss();
+    uploadInProgress = false;
   }
+
+  onMount(() => {
+    getYearList().then((l) => {
+      yearList = l;
+      year = l[0];
+    });
+  });
 </script>
 
 <style>
-  .spacer {
-    margin: 1em;
-  }
-
   .flexContainer {
     display: flex;
   }
@@ -79,7 +81,7 @@
             </div>
           </div>
 
-          <div class="spacer" />
+          <Spacer />
 
           <div class="control">
             <div class="select">
@@ -99,7 +101,9 @@
             class="input"
             bind:value={chapterNumber}
             placeholder="Chapter Number" />
-          <div class="spacer" />
+
+          <Spacer />
+
           <input
             type="text"
             class="input"
@@ -121,7 +125,13 @@
         </div>
 
         <div id="buttonContainer">
-          <div class="button is-primary" on:click={onSubmit}>Upload</div>
+          <div
+            class="button is-primary"
+            class:is-loading={uploadInProgress}
+            class:is-disabled={uploadInProgress}
+            on:click={onSubmit}>
+            Upload
+          </div>
         </div>
       </div>
     </div>

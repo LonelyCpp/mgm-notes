@@ -6,7 +6,7 @@
 <style>
   div {
     display: flex;
-    position: absolute;
+    position: fixed;
 
     width: 50px;
     height: 50px;

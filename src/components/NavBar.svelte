@@ -1,14 +1,6 @@
 <script>
-  import { onMount } from "svelte";
-
   import { loginWithGoogle } from "../firebase/auth";
   import { userMeta } from "../store/authStore";
-
-  let allYears = ["first PU", "second PU"];
-  let allSubjects = [];
-
-  let selectedYear = "";
-  let selectedSubject = "";
 
   let hamburgerActive = false;
 
@@ -30,8 +22,8 @@
       role="button"
       aria-label="menu"
       class="navbar-burger"
-      class:is-active={hamburgerActive}
       aria-expanded="false"
+      class:is-active={hamburgerActive}
       on:click={onHamburgerClick}>
       <span aria-hidden="true" />
       <span aria-hidden="true" />
@@ -40,10 +32,14 @@
   </div>
   <div class="navbar-menu" class:is-active={hamburgerActive}>
     <div class="navbar-end">
-      <div class="navbar-item" on:click={loginWithGoogle}>
-        {#if $userMeta.loggedIn}Log out{:else}Login{/if}
+      <div class="navbar-item">
+        <div class="button is-primary is-inverted" on:click={loginWithGoogle}>
+          {#if $userMeta.loggedIn}Log out{:else}Login{/if}
+        </div>
       </div>
-      <div class="navbar-item">github</div>
+      <div class="navbar-item">
+        <div class="button is-primary is-inverted">github</div>
+      </div>
     </div>
   </div>
 </nav>

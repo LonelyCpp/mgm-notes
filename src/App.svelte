@@ -1,9 +1,5 @@
 <script>
-  import { onMount } from "svelte";
-
   import NavBar from "./components/NavBar.svelte";
-  import { checkForUser } from "./firebase/auth";
-  import { init } from "./firebase/firebase";
   import MainPage from "./MainPage.svelte";
 </script>
 

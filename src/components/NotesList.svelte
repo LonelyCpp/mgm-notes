@@ -1,6 +1,5 @@
 <script>
   import { getNotes } from "../firebase/firestore";
-
   export let path;
   let notesBath = [[]];
 
@@ -54,8 +53,14 @@
     {#each noteCol as note}
       {#if note.chapterName}
         <div class="column is-flex">
-          <div class="note ">
-            <h1 class="title is-4 has-text-primary">{note.chapterName}</h1>
+          <div class="note">
+            <h1 class="title is-4 has-text-primary">
+              {note.chapterName}
+              <h1 class="title is-6 has-text-info">
+                (chapter:
+                {note.chapterNumber})
+              </h1>
+            </h1>
 
             <h2 class="subtitle is-6">
               {@html note.notesText}

@@ -32,8 +32,8 @@
     <PathSelector {onPathChange} />
     <NotesList {path} />
   </div>
-  <!-- {#if $userMeta.loggedIn} -->
-  <Fab onClick={showInsertModal} />
-  <InsertModal visible={insertModalActive} onDismiss={dismissInsertModal} />
-  <!-- {/if} -->
+  {#if $userMeta.loggedIn}
+    <Fab onClick={showInsertModal} />
+    <InsertModal visible={insertModalActive} onDismiss={dismissInsertModal} />
+  {/if}
 </main>

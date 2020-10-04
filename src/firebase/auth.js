@@ -31,4 +31,12 @@ export const loginWithGoogle = async () => {
 
   return true;
 };
-``;
+
+export const logout = async () => {
+  const auth = firebase.auth();
+  await auth.signOut();
+  userMeta.set({
+    loggedIn: false,
+    user: null,
+  });
+};

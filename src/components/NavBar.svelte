@@ -1,5 +1,5 @@
 <script>
-  import { loginWithGoogle } from "../firebase/auth";
+  import { loginWithGoogle, logout } from "../firebase/auth";
   import { userMeta } from "../store/authStore";
 
   let hamburgerActive = false;
@@ -12,7 +12,7 @@
 <style>
 </style>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
       <h1>Notes App</h1>
@@ -33,7 +33,9 @@
   <div class="navbar-menu" class:is-active={hamburgerActive}>
     <div class="navbar-end">
       <div class="navbar-item">
-        <div class="button is-primary is-inverted" on:click={loginWithGoogle}>
+        <div
+          class="button is-primary is-inverted"
+          on:click={$userMeta.loggedIn ? logout : loginWithGoogle}>
           {#if $userMeta.loggedIn}Log out{:else}Login{/if}
         </div>
       </div>

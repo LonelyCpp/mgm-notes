@@ -18,27 +18,38 @@
   let notesText = "";
   let files;
 
+  $: canUpload =
+    chapterName && chapterNumber > 0 && ((files && files[0]) || notesText);
+
   let uploadInProgress = false;
+  let uploadError = false;
 
   async function onSubmit() {
     uploadInProgress = true;
+    uploadError = false;
 
-    let filePath = "";
-    if (files && files[0]) {
-      const uploadSnapShot = await uploadFile(files[0]);
-      filePath = uploadSnapShot.ref.fullPath;
+    try {
+      let filePath = "";
+      if (files && files[0]) {
+        const uploadSnapShot = await uploadFile(files[0]);
+        filePath = uploadSnapShot.ref.fullPath;
+      }
+
+      const path = `/notes/${year}/${lang}`;
+      await insertNotes(path, {
+        chapterNumber,
+        chapterName,
+        notesText,
+        filePath,
+      });
+
+      onDismiss();
+    } catch (error) {
+      console.log(error.message);
+      uploadError = true;
+    } finally {
+      uploadInProgress = false;
     }
-
-    const path = `/notes/${year}/${lang}`;
-    await insertNotes(path, {
-      chapterNumber,
-      chapterName,
-      notesText,
-      filePath,
-    });
-
-    onDismiss();
-    uploadInProgress = false;
   }
 
   onMount(() => {
@@ -124,14 +135,21 @@
             placeholder="Type Here" />
         </div>
 
+        {#if uploadError}
+          <div class="notification is-danger">
+            Upload failed. Make sure you have suffecient permissions and try
+            again
+          </div>
+        {/if}
+
         <div id="buttonContainer">
-          <div
+          <button
             class="button is-primary"
             class:is-loading={uploadInProgress}
-            class:is-disabled={uploadInProgress}
+            disabled={uploadInProgress || !canUpload}
             on:click={onSubmit}>
             Upload
-          </div>
+          </button>
         </div>
       </div>
     </div>

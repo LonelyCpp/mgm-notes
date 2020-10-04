@@ -8,8 +8,18 @@ export async function uploadFile(file) {
   const safeExtension = splitPath.length > 1 ? `.${splitPath.pop()}` : "";
   const fileName = Date.now() + safeExtension;
 
-  var storageRef = firebase.storage().ref();
-  var newFileRef = storageRef.child(fileName);
+  const storageRef = firebase.storage().ref();
+  const newFileRef = storageRef.child(fileName);
 
   return newFileRef.put(file);
+}
+
+export async function getDownloadableUrl(fileName) {
+  if (!fileName) {
+    return;
+  }
+
+  const storageRef = firebase.storage().ref();
+  const url = await storageRef.child(fileName).getDownloadURL();
+  return url;
 }

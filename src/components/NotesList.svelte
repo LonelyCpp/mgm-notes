@@ -1,5 +1,6 @@
 <script>
   import { getNotes } from "../firebase/firestore";
+  import { getDownloadableUrl } from "../firebase/storage";
   export let path;
   let notesBath = [[]];
 
@@ -7,9 +8,14 @@
     getNotes(path).then(processNotes);
   }
 
-  function processNotes(newNotes) {
+  async function processNotes(newNotes) {
     if (Array.isArray(newNotes)) {
       newNotes = newNotes.sort((a, b) => a.chapterNumber - b.chapterNumber);
+
+      for (let i = 0; i < newNotes.length; i++) {
+        newNotes[i].fileUrl = await getDownloadableUrl(newNotes[i].filePath);
+      }
+
       let pos = 0;
       let newBatch = [];
       let batchSize = 4;
@@ -67,7 +73,10 @@
             </h2>
 
             {#if note.filePath}
-              <div class="button is-link">Download file</div>
+              <a
+                class="button is-link"
+                href={note.fileUrl}
+                target="_blank">Download file</a>
             {/if}
           </div>
         </div>

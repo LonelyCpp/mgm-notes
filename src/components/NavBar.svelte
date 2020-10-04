@@ -10,6 +10,9 @@
 </script>
 
 <style>
+  a {
+    text-decoration: none;
+  }
 </style>
 
 <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
@@ -40,7 +43,10 @@
         </div>
       </div>
       <div class="navbar-item">
-        <div class="button is-primary is-inverted">github</div>
+        <a
+          class="button is-primary is-inverted"
+          href="https://github.com/LonelyCpp/mgm-notes"
+          target="_blank">github</a>
       </div>
     </div>
   </div>
